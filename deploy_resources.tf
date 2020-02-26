@@ -43,16 +43,6 @@ resource "azurerm_resource_group" "resourcegroup" {
     }
 }
 
-# Create private DNS zone
-resource "azurerm_private_dns_zone" "dnszone" {
-  name                = "${var.project_id}.bdlocal"
-  resource_group_name = azurerm_resource_group.resourcegroup.name
-  tags = {
-    environment = var.project_id,
-    user = var.user
-  }
-}
-
 # Create a virtual network within the resource group
 resource "azurerm_virtual_network" "network" {
     name                = "${var.project_id}-vnet"
@@ -66,14 +56,6 @@ resource "azurerm_virtual_network" "network" {
     }
 }
 
-# Link Private DNS Zone to Virtual Network
-resource "azurerm_private_dns_zone_virtual_network_link" "dnslink" {
-  name                  = "dnslink"
-  resource_group_name   = azurerm_resource_group.resourcegroup.name
-  private_dns_zone_name = azurerm_private_dns_zone.dnszone.name
-  virtual_network_id    = azurerm_virtual_network.network.id
-}
-
 # Create the subnet
 resource "azurerm_subnet" "subnet" {
     name                 = "${var.project_id}-subnet"
@@ -83,7 +65,9 @@ resource "azurerm_subnet" "subnet" {
 }
 
 # Create a Network Security Group 
-# allow ssh & http
+# Controller needs to have ssh access
+# Gateway needs access to any ports (due to service port mappings) - but cannot identify GW public IP address at this point, so we allow any
+### TODO: update security settings after deployment
 
 resource "azurerm_network_security_group" "nsg" {
     name                = "${var.project_id}-nsg"
@@ -91,25 +75,13 @@ resource "azurerm_network_security_group" "nsg" {
     resource_group_name = azurerm_resource_group.resourcegroup.name
     
   security_rule {
-    name = "AllowSSH"
+    name = "AllowAll"
     priority = 100
     direction = "Inbound"
     access         = "Allow"
     protocol = "Tcp"
     source_port_range       = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name = "AllowHTTP"
-    priority= 200
-    direction= "Inbound"
-    access = "Allow"
-    protocol = "Tcp"
-    source_port_range       = "*"
-    destination_port_range     = "80"
+    destination_port_range     = "*"
     source_address_prefix      = "Internet"
     destination_address_prefix = "*"
   }
@@ -340,7 +312,6 @@ resource "azurerm_virtual_machine" "gateway-vm" {
     }
 
     os_profile {
-        // To avoid name collapse with the gateway for vnet
         computer_name  = "bd-gateway.${var.project_id}.local"
         admin_username = var.user
         custom_data = file(pathexpand(var.cloud_init_file))
@@ -469,4 +440,12 @@ output "gateway_private_ip" {
 
 output "worker_private_ips" {
     value = azurerm_network_interface.workernics.*.private_ip_address
+}
+
+output "INSTALLATION" {
+    value = "Please wait couple of minutes for controller to reboot and then connect using ssh command (as shown above) and then run './bluek8s_install.sh' script to start installation"
+}
+
+output "gateway_public_dns_name" {
+    value = "${var.user}-${var.project_id}.${var.region}.cloudapp.azure.com"
 }
