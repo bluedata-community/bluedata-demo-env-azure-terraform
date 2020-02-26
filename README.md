@@ -1,12 +1,26 @@
-# How to setup BlueData demo environment on Azure with Terraform
+# How to setup HPE Container Platform demo environment on Azure with Terraform
 
-This aims to create a minimal demo environment in Microsoft Azure to run HPE Container Platform EPIC 5.0 installation.
+This aims to create a minimal demo environment in Microsoft Azure to run HPE Container Platform (EPIC 5.0) installation.
 Please check bluedata4 branch for EPIC v4 installation.
 
 Taken from the work of https://github.com/bluedata-community/bluedata-demo-env-aws-terraform
 
-Run terraform to deploy resources in Azure, and then ssh to controller & run `bluedata_install.sh` script to continue with the installation.
+Run terraform to deploy resources in Azure, and then ssh to controller & run `bluek8s_install.sh` script to continue with the installation.
 
+Similar process should be followed as explained in aws template;
+- `git clone https://github.hpe.com/erdinc-kaya/bluedata-demo-env-azure-terraform && cd bluedata-demo-env-azure-terraform`
+- `terraform init`
+- `cp cloud-init-ctr.yaml.template cloud-init-ctr.yaml`
+- `cp cloud-init.yaml.template cloud-init.yaml`
+- Edit cloud-init*.yaml files
+  - Paste your ssh private key so you can use for initial paswordless login (this will be removed as part of setup script later on)
+  - Paste your ssh public key signature to be able to connect to controller & gateway from your machine
+  - Paste your bluedata install file url
+  - change default username and folders if you wish
+- Edit terraform.tfvars file to add your Azure subscription details (detailed steps below)
+
+After successful deployment of Azure resources, you can manually update NSG settings to secure access to nodes (only controller and gateway have public IP addresses but all ports are exposed by default).
+Once connected with bluedata user (default user by cloud-init, you can choose your own), run installation script to prepare nodes & setup EPIC in controller. 
 
 ## Before start, you should setup your Azure subscription & crendetials following these steps:
 
