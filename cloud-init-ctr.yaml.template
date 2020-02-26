@@ -14,17 +14,6 @@ packages:
 repo_update: true
 repo_upgrade: all
 
-disk_setup:
-  ephemeral0:
-    table_type: gpt
-    layout: [[33,82]]
-    overwrite: true
-fs_setup:
-  - device: ephemeral0.1
-    filesystem: swap
-mounts:
-  - ["ephemeral0.1", "none", "swap", "sw", "0", "0"]
-
 write_files:
   - content: |
       ### Paste your private key to enable passwordless login (will be cleared once local credentials are configured)
@@ -41,9 +30,9 @@ write_files:
       sudo chown -R bluedata:bluedata /home/bluedata
       echo "Generating SSH keys for passwordless login"
       ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
-      echo "Adding identities for ssh auth"
+      echo "BLUEDATA INSTALL: Adding identities for ssh auth"
       eval `ssh-agent -s` && ssh-add && ssh-add -t 3600 "/home/bluedata/private.key"
-      echo "Please wait while copying SSH IDs to workers & gateways"
+      echo "BLUEDATA INSTALL: Please wait while copying SSH IDs to workers & gateways"
       ### By default with 3 workers, these are the internal IP addresses assigned, need to modify if more workers are added
       ssh-copy-id -o StrictHostKeyChecking=no bluedata@10.1.1.4
       ssh-copy-id -o StrictHostKeyChecking=no bluedata@10.1.1.5
@@ -51,24 +40,25 @@ write_files:
       ssh-copy-id -o StrictHostKeyChecking=no bluedata@10.1.1.7
       ssh-copy-id -o StrictHostKeyChecking=no bluedata@10.1.1.8
       sudo rm "/home/bluedata/private.key"
-      echo "Installing pip and other packages"
+      echo "BLUEDATA INSTALL: Installing pip and other packages"
       sudo yum install -y python-pip
       sudo yum install -y python-setuptools
-      echo "Upgrading python packages"
+      echo "BLUEDATA INSTALL: Upgrading python packages"
       sudo pip install --upgrade pip
       sudo pip install --upgrade setuptools
       ### Replace the url for the installation file
-      curl -s -o "/home/bluedata/bluedata-epic-entdoc-minimal.bin" "..."
-      chmod +x "/home/bluedata/bluedata-epic-entdoc-minimal.bin"
+      echo "BLUEDATA INSTALL: Please wait while downloading installation package"
+      curl -s -o "/home/bluedata/bluek8s-epic-entdoc-minimal.bin" "https://bluek8s.s3.amazonaws.com/bluedata-epic-entdoc-minimal-release-5.0-3005.bin"
+      chmod +x "/home/bluedata/bluek8s-epic-entdoc-minimal.bin"
       pip install --upgrade bdworkbench
       sudo pip install --quiet bs4
-      echo "Starting BlueData installation"
-      bash "/home/bluedata/bluedata-epic-entdoc-minimal.bin" --skipeula
-      echo "Login to controller webUI and continue with setup"
-      echo "Use this private key when adding workers & gateway"
+      echo "BLUEDATA INSTALL: Starting BlueData installation"
+      bash "/home/bluedata/bluek8s-epic-entdoc-minimal.bin" --skipeula
+      echo "BLUEDATA INSTALL: Login to controller webUI and continue with setup"
+      echo "BLUEDATA INSTALL: Use this private key when adding workers & gateway"
       cat ~/.ssh/id_rsa
-    path: "/home/bluedata/bluedata_install.sh"
+    path: "/home/bluedata/bluek8s_install.sh"
     permissions: '0755'
 
-# power_state:
-#   mode: reboot
+power_state:
+  mode: reboot
