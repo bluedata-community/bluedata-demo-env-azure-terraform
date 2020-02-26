@@ -5,6 +5,7 @@ users:
     shell: /bin/bash
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh-authorized-keys: 
+    ### SSH Public Key Here
       - ssh-rsa ...
 
 package_upgrade: true
@@ -46,9 +47,9 @@ write_files:
       echo "BLUEDATA INSTALL: Upgrading python packages"
       sudo pip install --upgrade pip
       sudo pip install --upgrade setuptools
-      ### Replace the url for the installation file
       echo "BLUEDATA INSTALL: Please wait while downloading installation package"
-      curl -s -o "/home/bluedata/bluek8s-epic-entdoc-minimal.bin" "https://bluek8s.s3.amazonaws.com/bluedata-epic-entdoc-minimal-release-5.0-3005.bin"
+      ### Replace the url for the installation file
+      curl -s -o "/home/bluedata/bluek8s-epic-entdoc-minimal.bin" "URL_HERE"
       chmod +x "/home/bluedata/bluek8s-epic-entdoc-minimal.bin"
       pip install --upgrade bdworkbench
       sudo pip install --quiet bs4
