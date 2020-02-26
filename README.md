@@ -1,6 +1,7 @@
 # How to setup BlueData demo environment on Azure with Terraform
 
-This aims to create a minimal demo environment in Microsoft Azure to run BlueData 4.0 installation.
+This aims to create a minimal demo environment in Microsoft Azure to run HPE Container Platform EPIC 5.0 installation.
+Please check bluedata4 branch for EPIC v4 installation.
 
 Taken from the work of https://github.com/bluedata-community/bluedata-demo-env-aws-terraform
 
@@ -41,4 +42,3 @@ AppId                                 DisplayName                    Name       
 - Add AzureAD and NFS server options
 - Disable firewall ports except for gateway (https) and controller (ssh)
 - Enable adding worker nodes
-
