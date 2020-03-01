@@ -7,7 +7,7 @@ Taken from the work of https://github.com/bluedata-community/bluedata-demo-env-a
 Run terraform to deploy resources in Azure, and then ssh to controller & run `bluedata_install.sh` script to continue with the installation.
 
 
-## Before start, you should setup your Azure subscription & crendetials following these steps:
+## Before start, you should setup your Azure subscription & credentials following these steps:
 
 Query subscription ID
 
@@ -41,4 +41,3 @@ AppId                                 DisplayName                    Name       
 - Add AzureAD and NFS server options
 - Disable firewall ports except for gateway (https) and controller (ssh)
 - Enable adding worker nodes
-

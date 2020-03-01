@@ -70,5 +70,5 @@ write_files:
     path: "/home/bluedata/bluedata_install.sh"
     permissions: '0755'
 
-# power_state:
-#   mode: reboot
+power_state:
+  mode: reboot

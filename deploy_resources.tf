@@ -43,15 +43,15 @@ resource "azurerm_resource_group" "resourcegroup" {
     }
 }
 
-# Create private DNS zone
-resource "azurerm_private_dns_zone" "dnszone" {
-  name                = "${var.project_id}.bdlocal"
-  resource_group_name = azurerm_resource_group.resourcegroup.name
-  tags = {
-    environment = var.project_id,
-    user = var.user
-  }
-}
+// # Create private DNS zone
+// resource "azurerm_private_dns_zone" "dnszone" {
+//   name                = "${var.project_id}.bdlocal"
+//   resource_group_name = azurerm_resource_group.resourcegroup.name
+//   tags = {
+//     environment = var.project_id,
+//     user = var.user
+//   }
+// }
 
 # Create a virtual network within the resource group
 resource "azurerm_virtual_network" "network" {
@@ -66,13 +66,13 @@ resource "azurerm_virtual_network" "network" {
     }
 }
 
-# Link Private DNS Zone to Virtual Network
-resource "azurerm_private_dns_zone_virtual_network_link" "dnslink" {
-  name                  = "dnslink"
-  resource_group_name   = azurerm_resource_group.resourcegroup.name
-  private_dns_zone_name = azurerm_private_dns_zone.dnszone.name
-  virtual_network_id    = azurerm_virtual_network.network.id
-}
+// # Link Private DNS Zone to Virtual Network
+// resource "azurerm_private_dns_zone_virtual_network_link" "dnslink" {
+//   name                  = "dnslink"
+//   resource_group_name   = azurerm_resource_group.resourcegroup.name
+//   private_dns_zone_name = azurerm_private_dns_zone.dnszone.name
+//   virtual_network_id    = azurerm_virtual_network.network.id
+// }
 
 # Create the subnet
 resource "azurerm_subnet" "subnet" {
