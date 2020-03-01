@@ -8,7 +8,7 @@ Taken from the work of https://github.com/bluedata-community/bluedata-demo-env-a
 Run terraform to deploy resources in Azure, and then ssh to controller & run `bluek8s_install.sh` script to continue with the installation.
 
 Similar process should be followed as explained in aws template;
-- `git clone https://github.hpe.com/erdinc-kaya/bluedata-demo-env-azure-terraform && cd bluedata-demo-env-azure-terraform`
+- `git clone https://github.com/erdincka/bluedata-demo-env-azure-terraform.git && cd bluedata-demo-env-azure-terraform`
 - `terraform init`
 - `cp cloud-init-ctr.yaml.template cloud-init-ctr.yaml`
 - `cp cloud-init.yaml.template cloud-init.yaml`
@@ -22,7 +22,7 @@ Similar process should be followed as explained in aws template;
 After successful deployment of Azure resources, you can manually update NSG settings to secure access to nodes (only controller and gateway have public IP addresses but all ports are exposed by default).
 Once connected with bluedata user (default user by cloud-init, you can choose your own), run installation script to prepare nodes & setup EPIC in controller. 
 
-## Before start, you should setup your Azure subscription & crendetials following these steps:
+## Before start, you should setup your Azure subscription & credentials following these steps:
 
 Query subscription ID
 
