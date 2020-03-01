@@ -8,7 +8,7 @@ Taken from the work of https://github.com/bluedata-community/bluedata-demo-env-a
 Run terraform to deploy resources in Azure, and then ssh to controller & run `bluek8s_install.sh` script to continue with the installation.
 
 Similar process should be followed as explained in aws template;
-- `git clone https://github.com/erdincka/bluedata-demo-env-azure-terraform.git && cd bluedata-demo-env-azure-terraform`
+- `git clone https://github.com/bluedata-community/bluedata-demo-env-azure-terraform.git && cd bluedata-demo-env-azure-terraform`
 - `terraform init`
 - `cp cloud-init-ctr.yaml.template cloud-init-ctr.yaml`
 - `cp cloud-init.yaml.template cloud-init.yaml`
