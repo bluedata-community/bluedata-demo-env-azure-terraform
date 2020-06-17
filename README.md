@@ -1,3 +1,7 @@
+## Please note that this project is not updated anymore. 
+## You can switch to Jupyter Notebook version at HPE Container Platform community:
+### https://github.com/hpe-container-platform-community/demo-env-azure-notebook
+
 # How to setup HPE Container Platform demo environment on Azure with Terraform
 
 This aims to create a minimal demo environment in Microsoft Azure to run HPE Container Platform (EPIC 5.0) installation.
